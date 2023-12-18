@@ -61,7 +61,7 @@ const DashboardView = () => {
       />
       <div style={{ marginTop: 16, textAlign: "center" }}>
         <Button type="primary" onClick={handleOpenModal}>
-          Move Data
+          Move Product
         </Button>
         {isModalOpen && (
           <LocationModal onClose={handleCloseModal} isOpen={isModalOpen} />
