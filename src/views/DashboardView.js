@@ -50,7 +50,7 @@ const DashboardView = () => {
 
   return (
     <div style={{ margin: "20px", padding: "100px" }}>
-      <h2 style={{ textAlign: "center" }}>Location Balance Dashboard</h2>
+      <h2 style={{ textAlign: "center" }}>Inventory Management Web App</h2>
       <Table
         dataSource={locationData}
         columns={columns}
