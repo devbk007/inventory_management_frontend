@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button } from "antd";
-import Modal from "../components/LocationModal";
+import { Table, Button, message } from "antd";
+import LocationModal from "../components/LocationModal";
 
 const DashboardView = () => {
   const [locationData, setLocationData] = useState([]);
@@ -21,7 +21,13 @@ const DashboardView = () => {
     fetch("http://127.0.0.1:5000/location_balance") // Update the URL with your actual API endpoint
       .then((response) => response.json())
       .then((data) => setLocationData(data))
-      .catch((error) => console.error("Error fetching data:", error));
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        message.error({
+            content: "Error fetching data. Please try again.",
+            duration: 2, // Duration in seconds
+          });
+      });
   }, [dashboardKey]); // Empty dependency array means this effect runs once when the component mounts
 
   const columns = [
@@ -41,12 +47,14 @@ const DashboardView = () => {
       key: "balance_quantity",
       render: (balanceQuantity) => {
         const quantityLines = Object.entries(balanceQuantity).map(
-          ([productId, quantity], index) => (
-            <div key={`${productId}-${index}`}>
-              {productId} : {quantity}
-            </div>
-          )
+          ([productId, quantity], index) =>
+            quantity > 0 ? (
+              <div key={`${productId}-${index}`}>
+                {productId} : {quantity}
+              </div>
+            ) : null
         );
+
         return quantityLines;
       },
     },
@@ -61,7 +69,10 @@ const DashboardView = () => {
           Move Data
         </Button>
         {isModalOpen && (
-          <Modal onClose={handleCloseModal} isOpen={isModalOpen} />
+          <LocationModal
+            onClose={handleCloseModal}
+            isOpen={isModalOpen}
+          />
         )}
       </div>
     </div>

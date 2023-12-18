@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Input, Button } from "antd";
+import { Modal, Input, Button, message } from "antd";
 import axios from "axios";
 
 const LocationModal = ({ isOpen, onClose }) => {
@@ -31,22 +31,39 @@ const LocationModal = ({ isOpen, onClose }) => {
       const parsedToLocationID = parseInt(toLocationID, 10);
       const parsedQty = parseInt(qty, 10);
 
-      const response = await axios.post("http://127.0.0.1:5000/product_movements", {
-        product_id: parsedProductID,
-        from_location_id: parsedFromLocationID,
-        to_location_id: parsedToLocationID,
-        qty: parsedQty,
-      });
-  
-      // Handle success, e.g., close the modal
-      console.log("API response:", response.data);
-      onClose();
+      const response = await axios.post(
+        "http://127.0.0.1:5000/product_movements",
+        {
+          product_id: parsedProductID,
+          from_location_id: parsedFromLocationID,
+          to_location_id: parsedToLocationID,
+          qty: parsedQty,
+        }
+      );
+
+      // Check the response data for success
+      if (response.data.product_movement_id) {
+        // Handle success, e.g., close the modal
+        console.log("API response:", response.data);
+        onClose();
+      } else {
+        // Show error message using Ant Design message component
+        message.error({
+          content: "Submit failed. Please try again.",
+          duration: 2, // Duration in seconds
+        });
+      }
     } catch (error) {
       // Handle error
       console.error("API error:", error);
+      // Show error message using Ant Design message component
+      message.error({
+        content: error.message,
+        duration: 2, // Duration in seconds2
+      });
     }
   };
-  
+
   return (
     <Modal
       open={isOpen}
@@ -56,7 +73,7 @@ const LocationModal = ({ isOpen, onClose }) => {
       centered
       className="Modal-container"
     >
-      <form onSubmit={handleSubmit}>
+      <div>
         <label>
           Product ID:
           <Input
@@ -93,10 +110,10 @@ const LocationModal = ({ isOpen, onClose }) => {
           />
         </label>
         <br />
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" onClick={handleSubmit}>
           Submit
         </Button>
-      </form>
+      </div>
     </Modal>
   );
 };
