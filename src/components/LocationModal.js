@@ -3,9 +3,9 @@ import { Modal, Input, Button, message } from "antd";
 import axios from "axios";
 
 const LocationModal = ({ isOpen, onClose }) => {
-  const [productID, setProductID] = useState(0);
-  const [fromLocationID, setFromLocationID] = useState(0);
-  const [toLocationID, setToLocationID] = useState(0);
+  const [productID, setProductID] = useState("");
+  const [fromLocationID, setFromLocationID] = useState("");
+  const [toLocationID, setToLocationID] = useState("");
   const [qty, setQty] = useState(0);
 
   const handleProductIDChange = (value) => {
@@ -26,18 +26,18 @@ const LocationModal = ({ isOpen, onClose }) => {
 
   const handleSubmit = async () => {
     try {
-      const parsedProductID = parseInt(productID, 10);
-      const parsedFromLocationID = parseInt(fromLocationID, 10);
-      const parsedToLocationID = parseInt(toLocationID, 10);
-      const parsedQty = parseInt(qty, 10);
+      // const parsedProductID = parseInt(productID, 10);
+      // const parsedFromLocationID = parseInt(fromLocationID, 10);
+      // const parsedToLocationID = parseInt(toLocationID, 10);
+      // const parsedQty = parseInt(qty, 10);
 
       const response = await axios.post(
         "http://127.0.0.1:5000/product_movements",
         {
-          product_id: parsedProductID,
-          from_location_id: parsedFromLocationID,
-          to_location_id: parsedToLocationID,
-          qty: parsedQty,
+          product_id: productID,
+          from_location_id: fromLocationID,
+          to_location_id: toLocationID,
+          qty: qty,
         }
       );
 

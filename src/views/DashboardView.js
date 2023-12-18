@@ -24,39 +24,27 @@ const DashboardView = () => {
       .catch((error) => {
         console.error("Error fetching data:", error);
         message.error({
-            content: "Error fetching data. Please try again.",
-            duration: 2, // Duration in seconds
-          });
+          content: "Error fetching data. Please try again.",
+          duration: 2, // Duration in seconds
+        });
       });
   }, [dashboardKey]); // Empty dependency array means this effect runs once when the component mounts
 
   const columns = [
     {
-      title: "Location ID",
-      dataIndex: "location_id",
-      key: "location_id",
+      title: "Product",
+      dataIndex: "product_name",
+      key: "product_name",
     },
     {
-      title: "Location Name",
+      title: "Warehouse",
       dataIndex: "location_name",
       key: "location_name",
     },
     {
       title: "Balance Quantity",
-      dataIndex: "balance_quantity",
-      key: "balance_quantity",
-      render: (balanceQuantity) => {
-        const quantityLines = Object.entries(balanceQuantity).map(
-          ([productId, quantity], index) =>
-            quantity > 0 ? (
-              <div key={`${productId}-${index}`}>
-                {productId} : {quantity}
-              </div>
-            ) : null
-        );
-
-        return quantityLines;
-      },
+      dataIndex: "quantity",
+      key: "quantity",
     },
   ];
 
@@ -69,10 +57,7 @@ const DashboardView = () => {
           Move Data
         </Button>
         {isModalOpen && (
-          <LocationModal
-            onClose={handleCloseModal}
-            isOpen={isModalOpen}
-          />
+          <LocationModal onClose={handleCloseModal} isOpen={isModalOpen} />
         )}
       </div>
     </div>
