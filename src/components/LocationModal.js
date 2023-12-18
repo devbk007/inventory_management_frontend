@@ -110,7 +110,7 @@ const LocationModal = ({ isOpen, onClose }) => {
           />
         </label>
         <br />
-        <Button type="primary" onClick={handleSubmit}>
+        <Button style={{marginTop:'20px'}} type="primary" onClick={handleSubmit}>
           Submit
         </Button>
       </div>

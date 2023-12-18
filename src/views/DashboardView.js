@@ -49,9 +49,16 @@ const DashboardView = () => {
   ];
 
   return (
-    <div>
+    <div style={{ margin: "20px", padding: "100px" }}>
       <h2 style={{ textAlign: "center" }}>Location Balance Dashboard</h2>
-      <Table dataSource={locationData} columns={columns} />
+      <Table
+        dataSource={locationData}
+        columns={columns}
+        bordered
+        pagination={{
+          pageSize: 5,
+        }}
+      />
       <div style={{ marginTop: 16, textAlign: "center" }}>
         <Button type="primary" onClick={handleOpenModal}>
           Move Data
